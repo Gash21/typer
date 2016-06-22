@@ -15,8 +15,8 @@ Pertanyaan:
 
 
 Jawaban :
-1. Library yang dipakai adalah 
-	- <b>JQuery<b>
+1. Library yang dipakai adalah <br/>
+	- <b>JQuery</b>
 	  	Website 	: https://jquery.com/
 	  	Dokumentasi : https://api.jquery.com/
 
