@@ -15,22 +15,25 @@ Pertanyaan:
 
 
 Jawaban :
-1. Library yang dipakai adalah <br/>
-	- <b>JQuery</b>
+
+1. Library yang dipakai adalah
+
+	- JQuery
 	  	Website 	: https://jquery.com/
 	  	Dokumentasi : https://api.jquery.com/
 
-	- <b>Bootstrap CSS</b>
+	- Bootstrap CSS
 		Website 	: http://getbootstrap.com
 		Dokumentasi	: http://getbootstrap.com
 
-	- <b>Underscore JS</b>
+	- Underscore JS
 		Website 	: http://underscorejs.org/
 		Dokumentasi : http://devdocs.io/underscore/
 
-	- <b>Backbone JS</b> 
+	- Backbone JS 
 		Website 	: http://backbonejs.org/)
 		Dokumentasi : http://devdocs.io/backbone/
+
 
 2. Pada browser saya animasi terlihat laggy karena interval yang diambil adalah 100ms namun ketika saya ubah menjadi 50ms animasi terlihat lebih smooth. Dan juga, karena element berubah dengan interval yang terlalu cepat sehingga membuat browser lebih berat untuk memprosesnya. Untuk memperbaikinya 
 
@@ -46,4 +49,4 @@ Jawaban :
 
 6. Selesai, tolong periksa hasil dan kode. Penambahan ditambahkan sesuai dengan jumlah huruf yang benar diketik.
 
-7.
+7. 
