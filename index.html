@@ -2,24 +2,50 @@
 <html>
 <head>
 <title>Qerja - Typer</title>
+<link rel='stylesheet' href='./bootstrap.css' />
+<link rel='stylesheet' href='./bootstrap-theme.css' />
+<link rel='stylesheet' href='./typer.css' />
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+<h4> Score  : <span id="score"> 0</span></h4>
+<input type="button" class="btn" id="start" style="z-index: 1000000" value="Start">
+<input type="button"  class="btn" id="stop" style="z-index: 1000000" value="Stop">
+<input type="button"  class="btn" id="pause" style="z-index: 1000000" value="Pause">
+<input type="button"  class="btn" id="resume" style="z-index: 1000000" value="Resume">
+<div id="container" class="col-sm-12">
+</div>
 <script type='text/javascript' src='./jquery-1.11.1.js'></script>
 <script type='text/javascript' src='./jquery-ui-1.10.4.js'></script>
 <script type='text/javascript' src='./underscore.js'></script>
 <script type='text/javascript' src='./backbone.js'></script>
 <script type='text/javascript' src='./typer.js'></script>
-<link rel='stylesheet' href='./bootstrap.css' />
-<link rel='stylesheet' href='./bootstrap-theme.css' />
-<link rel='stylesheet' href='./jquery-ui-1.10.4.css' />
-<link rel='stylesheet' href='./typer.css' />
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-</head>
-<body>
 <script type="text/javascript">
 var company_names = ["Agung Podomoro Group","Citibank","Nokia Solution and Networks PT","Bhinneka.com","Tripatra","RCTI","TelkomSigma","Intrias Mandiri Sejati PT","Altermyth","Panin Bank","Gramedia Bookstore","Garuda Indonesia","Chevron Pacific","Darmex Agro","Bank SBI Indonesia PT","DBS Bank","UPS Cardig International PT","Tately NV","Cigna","Antam"];
 
 $(document).ready(function() {
 	var typer = new Typer();
-	typer.start();
+	$('#start').click(function(){
+		$('#container').empty();
+		$('#container').show();
+		typer.start();
+	});
+
+	$('#stop').click(function(){
+		$('#container').empty();
+		$('#container').hide();
+		typer.stop();
+	});
+
+	$('#pause').click(function(){
+		$('#container').show();
+		typer.pause();
+	});
+
+	$('#resume').click(function(){
+		$('#container').show();
+		typer.resume();
+	});
 });
 </script>
 </body>

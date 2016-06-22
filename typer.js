@@ -10,13 +10,15 @@ var Words = Backbone.Collection.extend({
 
 var WordView = Backbone.View.extend({
 	initialize: function() {
-		$(this.el).css({position:'absolute'});
 		var string = this.model.get('string');
+		$('#container').css({position:'absolute'}).append(this.el);
+		$(this.el).css({position:'absolute'}).attr('id',string.toLowerCase());
 		var letter_width = 25;
 		var word_width = string.length * letter_width;
 		if(this.model.get('x') + word_width > $(window).width()) {
 			this.model.set({x:$(window).width() - word_width});
 		}
+
 		for(var i = 0;i < string.length;i++) {
 			$(this.el)
 				.append($('<div>')
@@ -31,9 +33,7 @@ var WordView = Backbone.View.extend({
 					})
 					.text(string.charAt(i).toUpperCase()));
 		}
-		
 		this.listenTo(this.model, 'remove', this.remove);
-		
 		this.render();
 	},
 	
@@ -52,12 +52,12 @@ var WordView = Backbone.View.extend({
 		});
 	}
 });
-
+var point = 0;
 var TyperView = Backbone.View.extend({
+
 	initialize: function() {
 		var wrapper = $('<div>')
 			.css({
-				position:'fixed',
 				top:'0',
 				left:'0',
 				width:'100%',
@@ -68,6 +68,7 @@ var TyperView = Backbone.View.extend({
 		var self = this;
 		var text_input = $('<input>')
 			.addClass('form-control')
+			.attr('id','input')
 			.css({
 				'border-radius':'4px',
 				position:'absolute',
@@ -82,14 +83,23 @@ var TyperView = Backbone.View.extend({
 					var word = words.at(i);
 					var typed_string = $(this).val();
 					var string = word.get('string');
+					var highlighted = word.get('highlight');
 					if(string.toLowerCase().indexOf(typed_string.toLowerCase()) == 0) {
 						word.set({highlight:typed_string.length});
 						if(typed_string.length == string.length) {
 							$(this).val('');
-						}
+							// add point
+							point = point + string.length;
+						} 
 					} else {
 						word.set({highlight:0});
+						if(typed_string.length != highlighted){
+							//point -= 1;				
+						}
 					}
+					
+					$('#score').text(point);
+
 				}
 			});
 		
@@ -132,28 +142,51 @@ var TyperView = Backbone.View.extend({
 	}
 });
 
+var animation_delay = 0;
 var Typer = Backbone.Model.extend({
 	defaults:{
 		max_num_words:10,
 		min_distance_between_words:50,
 		words:new Words(),
 		min_speed:1,
-		max_speed:5,
+		max_speed:2,
 	},
 	
 	initialize: function() {
-		new TyperView({
-			model: this,
-			el: $(document.body)
-		});
+		this.typerView = new TyperView({
+  			model: this,
+  			el: $(document.body)
+  		});
 	},
 
+	interval:null,
+
 	start: function() {
-		var animation_delay = 100;
 		var self = this;
-		setInterval(function() {
+		animation_delay = 50;
+		clearInterval(this.interval);
+		this.interval = setInterval(function() {
 			self.iterate();
 		},animation_delay);
+	},
+
+	stop: function(){
+		clearInterval(this.interval);
+	},
+
+	resume: function(){
+		var self = this;
+		animation_delay = 50;
+		if(self.interval === 0) {
+			this.interval = setInterval(function() {
+				self.iterate();
+			},animation_delay);
+		}
+	},
+
+	pause: function(){
+		clearInterval(this.interval);
+		this.interval = 0;
 	},
 	
 	iterate: function() {
@@ -167,6 +200,7 @@ var Typer = Backbone.Model.extend({
 				} else if(word.get('y') < top_most_word.get('y')) {
 					top_most_word = word;
 				}
+				//stop();
 			}
 			
 			if(!top_most_word || top_most_word.get('y') > this.get('min_distance_between_words')) {
@@ -201,6 +235,7 @@ var Typer = Backbone.Model.extend({
 			if(word.get('highlight') && word.get('string').length == word.get('highlight')) {
 				word.set({move_next_iteration:true});
 			}
+
 		}
 		
 		for(var i = 0;i < words_to_be_removed.length;i++) {
